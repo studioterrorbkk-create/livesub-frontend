@@ -6,327 +6,233 @@
 <title>Liquid Metal — LiveSub</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kanit:wght@300;400;600;700&family=Sarabun:wght@300;400;600&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;}
-body{font-family:'Inter',sans-serif;background:#0e0e0e;color:#e8e6e0;overflow:hidden;}
-:root{
-  --bg:#0e0e0e;--panel:#161616;--panel2:#1e1e1e;--panel3:#262626;
-  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);
-  --text:#e8e6e0;--muted:rgba(232,230,224,0.4);--muted2:rgba(232,230,224,0.18);
-  --gold:#c9a84c;--red:#d95f5f;--green:#5db88a;--r:10px;--rsm:6px;
-}
-.page{display:none;width:100%;height:100vh;overflow:hidden;position:fixed;top:0;left:0;right:0;bottom:0;}.page.active{display:flex!important;flex-direction:column;}
-.page.active{display:flex;flex-direction:column;}
-
-/* GATE */
-#page-gate{align-items:center;justify-content:center;background:radial-gradient(ellipse 70% 50% at 50% 40%,rgba(201,168,76,0.06) 0%,transparent 70%),#0e0e0e;}
-.gc{width:360px;max-width:92vw;display:flex;flex-direction:column;align-items:center;}
-.gm{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:40px;}
-.gi{width:62px;height:62px;border-radius:50%;border:1px solid rgba(232,230,224,0.13);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:26px;background:var(--panel2);}
-.gt{font-size:24px;font-weight:300;letter-spacing:2px;margin-bottom:6px;text-align:center;}
-.gt b{font-weight:700;}
-.gs{font-size:12px;color:var(--muted);margin-bottom:34px;text-align:center;}
-.giw{width:100%;position:relative;margin-bottom:10px;}
-.giw input{width:100%;background:var(--panel2);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:14px;font-family:'Inter',sans-serif;padding:13px 44px 13px 16px;outline:none;letter-spacing:3px;transition:border-color 0.2s;}
-.giw input:focus{border-color:rgba(232,230,224,0.35);}
-.giw input.shake{animation:shake 0.35s ease;border-color:var(--red)!important;}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}60%{transform:translateX(8px)}80%{transform:translateX(-4px)}}
-.eyebtn{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:16px;padding:0;}
-.gbtn{width:100%;background:var(--text);border:none;border-radius:var(--r);color:#0e0e0e;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;padding:13px;cursor:pointer;transition:opacity 0.2s,transform 0.1s;}
-.gbtn:hover{opacity:0.85;}.gbtn:active{transform:scale(0.98);}
-.gerr{font-size:11px;color:var(--red);margin-top:8px;text-align:center;min-height:16px;}
-.gfoot{margin-top:46px;font-size:10px;color:var(--muted2);text-align:center;letter-spacing:1px;text-transform:uppercase;}
-
-/* TOPBAR */
-.topbar{display:flex;align-items:center;gap:14px;padding:0 22px;height:50px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0;z-index:10;}
-.tlogo{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--text);}
-.tlogo em{color:var(--gold);font-style:normal;}
-.tright{margin-left:auto;display:flex;align-items:center;gap:8px;}
-.chip{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid;}
-.cdim{color:var(--muted);border-color:var(--border2);}
-.cgold{color:var(--gold);border-color:rgba(201,168,76,0.35);background:rgba(201,168,76,0.07);}
-.cred{color:var(--red);border-color:rgba(217,95,95,0.3);background:rgba(217,95,95,0.07);animation:pls 1.8s ease infinite;}
-.cgreen{color:var(--green);border-color:rgba(93,184,138,0.3);background:rgba(93,184,138,0.07);}
-@keyframes pls{0%,100%{opacity:1}50%{opacity:0.45}}
-
-/* HOST */
-#page-host{background:var(--bg);height:100vh;display:flex;flex-direction:column;}
-.hbody{display:grid;grid-template-columns:272px 1fr;flex:1;overflow:hidden;min-height:0;}
-.sidebar{background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:14px;height:100%;}
-.sidebar::-webkit-scrollbar{width:3px;}
-.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
-.sl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:2px;}
-.cr{display:flex;flex-direction:column;gap:4px;margin-bottom:9px;}
-.ch{font-size:11px;color:var(--muted);}
-input[type=range]{width:100%;accent-color:var(--text);cursor:pointer;height:3px;}
-select{width:100%;background:var(--panel2);border:1px solid var(--border2);border-radius:var(--rsm);color:var(--text);font-size:12px;font-family:'Inter',sans-serif;padding:7px 10px;outline:none;cursor:pointer;}
-.seg{display:flex;gap:3px;}
-.sb{flex:1;text-align:center;font-size:11px;font-family:'Inter',sans-serif;background:var(--panel2);border:1px solid var(--border2);border-radius:var(--rsm);color:var(--muted);padding:5px 4px;cursor:pointer;transition:all 0.15s;}
-.sb.on{background:var(--panel3);border-color:rgba(232,230,224,0.28);color:var(--text);font-weight:500;}
-.sg{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
-.sw{width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:border-color 0.15s,transform 0.1s;flex-shrink:0;}
-.sw:hover{transform:scale(1.15);}.sw.on{border-color:var(--text);}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
-.fc{background:var(--panel2);border:1px solid var(--border2);border-radius:var(--rsm);padding:8px 9px;cursor:pointer;transition:all 0.15s;}
-.fc:hover,.fc.on{background:var(--panel3);border-color:rgba(232,230,224,0.28);}
-.fcs{font-size:18px;line-height:1;margin-bottom:3px;}
-.fcn{font-size:9px;color:var(--muted);letter-spacing:0.5px;text-transform:uppercase;}
-.ub{width:100%;padding:7px;font-size:11px;font-family:'Inter',sans-serif;background:var(--panel2);border:1px dashed var(--border2);border-radius:var(--rsm);color:var(--muted);cursor:pointer;text-align:center;transition:all 0.15s;}
-.ub:hover{background:var(--panel3);border-color:rgba(232,230,224,0.28);color:var(--text);}
-.lp{width:100%;height:42px;background:var(--panel2);border:1px solid var(--border);border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted2);overflow:hidden;margin-bottom:5px;}
-.lp img{max-height:34px;max-width:100%;object-fit:contain;}
-.dv{height:1px;background:var(--border);}
-
-/* Preview */
-.parea{display:flex;flex-direction:column;overflow:hidden;min-height:0;}
-.ptop{padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0;}
-.pscreens{flex:1;display:flex;gap:14px;padding:14px;overflow:hidden;align-items:stretch;}
-.swrap{display:flex;flex-direction:column;gap:6px;flex:1;}
-.stag{font-size:10px;color:var(--muted);}
-.sframe{flex:1;border-radius:8px;overflow:hidden;position:relative;border:1px solid var(--border2);background:#000;min-height:0;}
-.sframe.phone{flex:0 0 auto;width:168px;border-radius:18px;border:2px solid #2a2a2a;}
-.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:54px;height:10px;background:#1a1a1a;border-radius:0 0 8px 8px;z-index:5;}
-.sbg{position:absolute;inset:0;background:#000;background-size:cover;background-position:center;}
-.slogobox{position:absolute;top:12px;left:12px;z-index:3;max-width:70px;max-height:30px;}
-.slogobox img{max-width:100%;max-height:100%;object-fit:contain;}
-.prev-sub{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;}
-.prev-inner{width:88%;max-width:600px;display:flex;flex-direction:column;align-items:center;}
-.prev-thai{font-family:'Sarabun',sans-serif;text-align:center;width:100%;padding-bottom:7px;line-height:1.3;}
-.prev-line{height:1px;width:100%;}
-.prev-eng{text-align:center;width:100%;padding-top:7px;line-height:1.25;}
-
-/* Action bar */
-.abar{padding:12px 18px;border-top:1px solid var(--border);background:var(--panel);display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.abtn{padding:9px 20px;border-radius:var(--rsm);border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:opacity 0.2s,transform 0.1s;}
-.abtn:active{transform:scale(0.97);}
-.abp{background:var(--text);color:#0e0e0e;}.abp:hover{opacity:0.85;}
-.abg{background:var(--panel2);color:var(--text);border:1px solid var(--border2);}.abg:hover{background:var(--panel3);}
-.abd{background:rgba(217,95,95,0.1);color:var(--red);border:1px solid rgba(217,95,95,0.22);}
-.abl{background:var(--green);color:#0e0e0e;font-weight:700;}.abl:hover{opacity:0.88;}
-.mica{display:flex;align-items:center;gap:12px;flex:1;}
-.micbig{width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--panel3);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
-.micbig.on{background:var(--red);border-color:var(--red);animation:ring 1.5s ease infinite;}
-#micBtn.on{background:var(--red)!important;border-color:var(--red)!important;animation:ring 1.5s ease infinite;}
-@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(217,95,95,0.5)}50%{box-shadow:0 0 0 12px rgba(217,95,95,0)}}
-.mst{font-size:12px;color:var(--muted);}.mst strong{color:var(--text);}
-.vw{display:flex;gap:2px;align-items:flex-end;height:18px;}
-.vs{width:3px;border-radius:2px;background:var(--green);transition:height 0.08s;min-height:3px;}
-
-/* WAITING */
-#page-waiting{background:var(--bg);}
-.wb{flex:1;display:grid;grid-template-columns:1fr 296px;overflow:hidden;}
-.wprev{position:relative;overflow:hidden;}
-.wscr{width:100%;height:100%;position:relative;}
-.wpanel{background:var(--panel);border-left:1px solid var(--border);padding:22px 18px;display:flex;flex-direction:column;gap:18px;overflow-y:auto;}
-.rcc{background:var(--panel2);border:1px solid var(--border2);border-radius:var(--r);padding:14px;}
-.rcc-lbl{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
-.rcc-code{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;letter-spacing:8px;color:var(--gold);}
-.rcc-url{font-size:10px;color:var(--muted);margin-top:4px;word-break:break-all;}
-.qrw{background:#fff;border-radius:7px;padding:9px;width:148px;height:148px;margin:0 auto;display:flex;align-items:center;justify-content:center;}
-.wnote{font-size:11px;color:var(--muted);line-height:1.8;}
-.wnote li{margin-left:14px;}
-
-/* AUDIENCE */
-#page-audience{position:relative;overflow:hidden;}
-.abg{position:absolute;inset:0;background:#000;background-size:cover;background-position:center;z-index:0;}
-.alogo{position:absolute;top:16px;left:16px;z-index:3;max-width:100px;max-height:46px;}
-.alogo img{max-width:100%;max-height:100%;object-fit:contain;}
-.await{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
-.adot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.22);animation:dp 1.8s ease infinite;}
-@keyframes dp{0%,100%{transform:scale(1);opacity:0.22}50%{transform:scale(1.5);opacity:0.65}}
-.awt{font-size:12px;color:rgba(255,255,255,0.28);letter-spacing:3px;text-transform:uppercase;}
-.aanchor{position:absolute;inset:0;z-index:4;display:none;align-items:center;justify-content:center;}
-.abox{width:88%;max-width:900px;padding:14px 22px;border-radius:8px;}
-.split-wrap{display:flex;flex-direction:column;align-items:center;width:100%;}
-.thai-stack{width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;min-height:1.4em;padding-bottom:9px;}
-.center-line{width:100%;height:1px;flex-shrink:0;}
-.eng-stack{width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;min-height:1.3em;padding-top:9px;}
-.actrl{position:absolute;bottom:0;left:0;right:0;z-index:10;background:rgba(14,14,14,0.88);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,0.05);padding:10px 18px 12px;display:flex;align-items:center;gap:18px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
-.actrl.show{opacity:1;pointer-events:all;}
-.aclbl{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
-.mseg{display:flex;gap:3px;}
-.mb{font-size:10px;font-family:'Inter',sans-serif;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:4px;color:rgba(255,255,255,0.4);padding:3px 10px;cursor:pointer;transition:all 0.15s;}
-.mb.on{background:rgba(232,230,224,0.13);border-color:rgba(232,230,224,0.28);color:#e8e6e0;}
-.agear{position:absolute;bottom:10px;right:14px;z-index:11;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:5px;color:rgba(255,255,255,0.35);font-size:11px;padding:4px 9px;cursor:pointer;font-family:'Inter',sans-serif;}
-
-/* Connection status */
-.conn-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block;margin-right:5px;}
-.conn-dot.ok{background:var(--green);}
-.conn-dot.err{background:var(--red);}
-
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--panel3);border:1px solid var(--border2);border-radius:7px;padding:9px 18px;font-size:12px;color:var(--text);box-shadow:0 8px 28px rgba(0,0,0,0.5);z-index:999;opacity:0;transition:opacity 0.25s,transform 0.25s;pointer-events:none;}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:'Inter',sans-serif;background:#0e0e0e;color:#e8e6e0;overflow:hidden;}
+  button{font-family:'Inter',sans-serif;}
+  .page{position:fixed;inset:0;display:none;flex-direction:column;background:#0e0e0e;}
+  .page.active{display:flex;}
+  .vs{width:3px;border-radius:2px;background:#5db88a;min-height:3px;transition:height 0.1s;}
+  @keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(217,95,95,0.5)}50%{box-shadow:0 0 0 12px rgba(217,95,95,0)}}
+  @keyframes pls{0%,100%{opacity:1}50%{opacity:0.45}}
+  @keyframes dp{0%,100%{transform:scale(1);opacity:0.22}50%{transform:scale(1.5);opacity:0.65}}
+  #micBtn.on{background:#d95f5f!important;border-color:#d95f5f!important;animation:ring 1.5s ease infinite;}
+  .livepulse{animation:pls 1.8s ease infinite;}
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px;}
 </style>
 </head>
 <body>
 
-<!-- GATE -->
-<div id="page-gate" class="page active">
-  <div class="gc">
-    <div class="gm">Liquid Metal Publishing</div>
-    <div class="gi">🎙</div>
-    <h1 class="gt"><b>Live</b>Sub</h1>
-    <p class="gs" id="gateSub">Real-time Thai to English subtitle system</p>
-    <div class="giw">
-      <input type="password" id="gateInput" placeholder="Access password" autocomplete="off" onkeydown="if(event.key==='Enter')checkGate()">
-      <button class="eyebtn" onclick="toggleEye(this)" tabindex="-1">👁</button>
+<div id="page-gate" class="page active" style="align-items:center;justify-content:center;background:radial-gradient(ellipse 70% 50% at 50% 40%,rgba(201,168,76,0.06) 0%,transparent 70%),#0e0e0e;">
+  <div style="width:360px;max-width:92vw;display:flex;flex-direction:column;align-items:center;">
+    <div style="font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:rgba(232,230,224,0.4);margin-bottom:40px;">Liquid Metal Publishing</div>
+    <div style="width:62px;height:62px;border-radius:50%;border:1px solid rgba(232,230,224,0.13);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:26px;background:#1e1e1e;">MIC</div>
+    <h1 style="font-size:24px;font-weight:300;letter-spacing:2px;margin-bottom:6px;text-align:center;"><b style="font-weight:700;">Live</b>Sub</h1>
+    <p id="gateSub" style="font-size:12px;color:rgba(232,230,224,0.4);margin-bottom:34px;text-align:center;">Real-time Thai to English subtitle system</p>
+    <div style="width:100%;position:relative;margin-bottom:10px;">
+      <input type="password" id="gateInput" placeholder="Access password" autocomplete="off"
+        style="width:100%;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:10px;color:#e8e6e0;font-size:14px;padding:13px 44px 13px 16px;outline:none;letter-spacing:3px;">
+      <button id="eyeBtn" onclick="toggleEye()" tabindex="-1" style="position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(232,230,224,0.4);font-size:14px;">SHOW</button>
     </div>
-    <button class="gbtn" onclick="checkGate()">Enter</button>
-    <div class="gerr" id="gateErr"></div>
-    <div class="gfoot">v2.0 · Powered by Deepgram + Claude</div>
+    <button onclick="checkGate()" style="width:100%;background:#e8e6e0;border:none;border-radius:10px;color:#0e0e0e;font-size:14px;font-weight:600;padding:13px;cursor:pointer;">Enter</button>
+    <div id="gateErr" style="font-size:11px;color:#d95f5f;margin-top:8px;text-align:center;min-height:16px;"></div>
+    <div style="margin-top:46px;font-size:10px;color:rgba(232,230,224,0.18);text-align:center;letter-spacing:1px;text-transform:uppercase;">v3.0 - Deepgram + Claude</div>
   </div>
 </div>
 
-<!-- HOST -->
-<div id="page-host" class="page">
-  <div class="topbar">
-    <div class="tlogo">Liquid<em>Metal</em></div>
-    <span style="font-size:11px;color:var(--muted);">Host Studio</span>
-    <div class="tright">
-      <span class="chip cdim" id="modeChip">Design</span>
+<div id="page-host" class="page" style="background:#0e0e0e;">
+  <div style="display:flex;align-items:center;gap:14px;padding:0 22px;height:50px;border-bottom:1px solid rgba(255,255,255,0.06);background:#161616;flex-shrink:0;">
+    <div style="font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;">Liquid<em style="color:#c9a84c;font-style:normal;">Metal</em></div>
+    <span style="font-size:11px;color:rgba(232,230,224,0.4);">Host Studio</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+      <span id="modeChip" style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(255,255,255,0.11);color:rgba(232,230,224,0.4);">Design</span>
       <select id="micSel" style="max-width:160px;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:#e8e6e0;padding:6px 8px;outline:none;cursor:pointer;"></select>
-      <span style="font-size:11px;color:var(--muted);"><span class="conn-dot" id="connDot"></span><span id="connTxt">Connecting...</span></span>
+      <span style="font-size:11px;color:rgba(232,230,224,0.4);">
+        <span id="connDot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:rgba(232,230,224,0.4);margin-right:5px;"></span>
+        <span id="connTxt">Connecting...</span>
+      </span>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:272px 1fr;flex:1;overflow:hidden;min-height:0;">
-    <div style="background:#161616;border-right:1px solid rgba(255,255,255,0.06);overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:14px;min-height:0;">
+
+  <div style="flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0;">
+    <div style="width:272px;flex-shrink:0;background:#161616;border-right:1px solid rgba(255,255,255,0.06);overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:14px;">
+
       <div>
-        <div class="sl">Subtitle Font</div>
-        <div class="fg">
-          <div class="fc on" data-font="Inter" onclick="setFont(this)"><div class="fcs" style="font-family:'Inter',sans-serif;">Aa</div><div class="fcn">Inter · Modern</div></div>
-          <div class="fc" data-font="Kanit" onclick="setFont(this)"><div class="fcs" style="font-family:'Kanit',sans-serif;">Aa</div><div class="fcn">Kanit · Bold</div></div>
-          <div class="fc" data-font="Oswald" onclick="setFont(this)"><div class="fcs" style="font-family:'Oswald',sans-serif;">Aa</div><div class="fcn">Oswald · Esports</div></div>
-          <div class="fc" data-font="Bebas Neue" onclick="setFont(this)"><div class="fcs" style="font-family:'Bebas Neue',sans-serif;">Aa</div><div class="fcn">Bebas · Impact</div></div>
-          <div class="fc" data-font="Sarabun" onclick="setFont(this)"><div class="fcs" style="font-family:'Sarabun',sans-serif;">Aa</div><div class="fcn">Sarabun · Clean</div></div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,224,0.4);padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:8px;">Subtitle Font</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;" id="fontGrid">
+          <div class="fc on" data-font="Inter" onclick="setFont(this)" style="background:#262626;border:1px solid rgba(232,230,224,0.28);border-radius:6px;padding:8px 9px;cursor:pointer;"><div style="font-size:18px;font-family:\'Inter\',sans-serif;margin-bottom:3px;">Aa</div><div style="font-size:9px;color:rgba(232,230,224,0.4);letter-spacing:0.5px;text-transform:uppercase;">Inter - Modern</div></div>
+          <div class="fc" data-font="Kanit" onclick="setFont(this)" style="background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:8px 9px;cursor:pointer;"><div style="font-size:18px;font-family:\'Kanit\',sans-serif;margin-bottom:3px;">Aa</div><div style="font-size:9px;color:rgba(232,230,224,0.4);letter-spacing:0.5px;text-transform:uppercase;">Kanit - Bold</div></div>
+          <div class="fc" data-font="Oswald" onclick="setFont(this)" style="background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:8px 9px;cursor:pointer;"><div style="font-size:18px;font-family:\'Oswald\',sans-serif;margin-bottom:3px;">Aa</div><div style="font-size:9px;color:rgba(232,230,224,0.4);letter-spacing:0.5px;text-transform:uppercase;">Oswald - Esports</div></div>
+          <div class="fc" data-font="Bebas Neue" onclick="setFont(this)" style="background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:8px 9px;cursor:pointer;"><div style="font-size:18px;font-family:\'Bebas Neue\',sans-serif;margin-bottom:3px;">Aa</div><div style="font-size:9px;color:rgba(232,230,224,0.4);letter-spacing:0.5px;text-transform:uppercase;">Bebas - Impact</div></div>
+          <div class="fc" data-font="Sarabun" onclick="setFont(this)" style="background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;padding:8px 9px;cursor:pointer;"><div style="font-size:18px;font-family:\'Sarabun\',sans-serif;margin-bottom:3px;">Aa</div><div style="font-size:9px;color:rgba(232,230,224,0.4);letter-spacing:0.5px;text-transform:uppercase;">Sarabun - Clean</div></div>
         </div>
-        <div style="margin-top:6px;">
-          <label class="ub">+ Upload custom font (.ttf/.otf)<input type="file" accept=".ttf,.otf,.woff,.woff2" style="display:none;" onchange="uploadFont(this)"></label>
-          <div id="cfName" style="font-size:10px;color:var(--muted);margin-top:3px;text-align:center;"></div>
-        </div>
+        <label style="display:block;width:100%;padding:7px;font-size:11px;background:#1e1e1e;border:1px dashed rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);cursor:pointer;text-align:center;margin-top:6px;">
+          + Upload custom font (.ttf/.otf)
+          <input type="file" accept=".ttf,.otf,.woff,.woff2" style="display:none;" onchange="uploadFont(this)">
+        </label>
+        <div id="cfName" style="font-size:10px;color:rgba(232,230,224,0.4);margin-top:3px;text-align:center;"></div>
       </div>
-      <div class="dv"></div>
-      <div><div class="sl">Font Size</div><div class="seg"><button class="sb" onclick="setSz('S',this)">Small</button><button class="sb on" onclick="setSz('M',this)">Medium</button><button class="sb" onclick="setSz('L',this)">Large</button></div></div>
-      <div class="dv"></div>
+
+      <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
+
       <div>
-        <div class="sl">Color &amp; Effect</div>
-        <div class="cr"><div class="ch">Text color</div>
-          <div class="sg" id="tswatches">
-            <div class="sw on" style="background:#fff;border:1px solid #444;" data-val="#ffffff" onclick="setTC(this)"></div>
-            <div class="sw" style="background:#fef08a;" data-val="#fef08a" onclick="setTC(this)"></div>
-            <div class="sw" style="background:#86efac;" data-val="#86efac" onclick="setTC(this)"></div>
-            <div class="sw" style="background:#7dd3fc;" data-val="#7dd3fc" onclick="setTC(this)"></div>
-            <div class="sw" style="background:#f9a8d4;" data-val="#f9a8d4" onclick="setTC(this)"></div>
-            <div class="sw" style="background:#000;border:1px solid #444;" data-val="#000000" onclick="setTC(this)"></div>
-            <input type="color" value="#ffffff" oninput="D.textColor=this.value;render()" style="width:22px;height:22px;border:none;border-radius:4px;cursor:pointer;padding:0;">
-          </div>
-        </div>
-        <div class="cr" style="margin-bottom:0;"><div class="ch">Effect</div><div class="seg"><button class="sb on" onclick="setFX('none',this)">None</button><button class="sb" onclick="setFX('shadow',this)">Shadow</button><button class="sb" onclick="setFX('outline',this)">Outline</button><button class="sb" onclick="setFX('glow',this)">Glow</button></div></div>
-      </div>
-      <div class="dv"></div>
-      <div>
-        <div class="sl">Subtitle Box</div>
-        <div class="cr"><div class="ch">Style</div><div class="seg"><button class="sb on" onclick="setBox('black',this)">Black</button><button class="sb" onclick="setBox('white',this)">White</button><button class="sb" onclick="setBox('blur',this)">Blur</button><button class="sb" onclick="setBox('none',this)">None</button></div></div>
-        <div class="cr" style="margin-bottom:0;"><div class="ch">Opacity <span id="opOut">80</span>%</div><input type="range" min="0" max="100" value="80" oninput="D.boxOpacity=+this.value;document.getElementById('opOut').textContent=this.value;render()"></div>
-      </div>
-      <div class="dv"></div>
-      <div>
-        <div class="sl">Separator Line</div>
-        <div class="seg" style="margin-bottom:7px;"><button class="sb on" onclick="setSep(true,this)">Show</button><button class="sb" onclick="setSep(false,this)">Hide</button></div>
-        <div class="ch" style="margin-bottom:5px;">Line color</div>
-        <div class="sg" id="sepswatches">
-          <div class="sw on" style="background:rgba(255,255,255,0.5);border:1px solid #444;" data-val="rgba(255,255,255,0.5)" onclick="setSepC(this)"></div>
-          <div class="sw" style="background:#fff;" data-val="#ffffff" onclick="setSepC(this)"></div>
-          <div class="sw" style="background:#c9a84c;" data-val="#c9a84c" onclick="setSepC(this)"></div>
-          <div class="sw" style="background:#5db88a;" data-val="#5db88a" onclick="setSepC(this)"></div>
-          <div class="sw" style="background:#7dd3fc;" data-val="#7dd3fc" onclick="setSepC(this)"></div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,224,0.4);padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:8px;">Font Size</div>
+        <div style="display:flex;gap:3px;" id="sizeSeg">
+          <button data-v="S" onclick="setSz(\'S\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">Small</button>
+          <button data-v="M" onclick="setSz(\'M\',this)" style="flex:1;font-size:11px;background:#262626;border:1px solid rgba(232,230,224,0.28);border-radius:6px;color:#e8e6e0;font-weight:500;padding:5px 4px;cursor:pointer;">Medium</button>
+          <button data-v="L" onclick="setSz(\'L\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">Large</button>
         </div>
       </div>
-      <div class="dv"></div>
+
+      <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
+
       <div>
-        <div class="sl">Background</div>
-        <div class="cr"><div class="ch">Color</div>
-          <div class="sg" id="bswatches">
-            <div class="sw on" style="background:#000;border:1px solid #444;" data-val="#000000" onclick="setBC(this)"></div>
-            <div class="sw" style="background:#0d0d20;" data-val="#0d0d20" onclick="setBC(this)"></div>
-            <div class="sw" style="background:#1a0a0a;" data-val="#1a0a0a" onclick="setBC(this)"></div>
-            <div class="sw" style="background:#0a1a10;" data-val="#0a1a10" onclick="setBC(this)"></div>
-            <div class="sw" style="background:#181818;" data-val="#181818" onclick="setBC(this)"></div>
-            <input type="color" value="#000000" oninput="D.bgColor=this.value;D.bgImage='';render()" style="width:22px;height:22px;border:none;border-radius:4px;cursor:pointer;padding:0;">
-          </div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,224,0.4);padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:8px;">Color and Effect</div>
+        <div style="font-size:11px;color:rgba(232,230,224,0.4);margin-bottom:5px;">Text color</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:10px;" id="tswatches">
+          <div class="sw on" data-val="#ffffff" onclick="setTC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid #e8e6e0;background:#fff;"></div>
+          <div class="sw" data-val="#fef08a" onclick="setTC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#fef08a;"></div>
+          <div class="sw" data-val="#86efac" onclick="setTC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#86efac;"></div>
+          <div class="sw" data-val="#7dd3fc" onclick="setTC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#7dd3fc;"></div>
+          <div class="sw" data-val="#f9a8d4" onclick="setTC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#f9a8d4;"></div>
+          <div class="sw" data-val="#000000" onclick="setTC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid #444;background:#000;"></div>
+          <input type="color" value="#ffffff" oninput="D.textColor=this.value;render()" style="width:22px;height:22px;border:none;border-radius:4px;cursor:pointer;padding:0;">
         </div>
-        <label class="ub">📁 Upload image background<input type="file" accept="image/*" style="display:none;" onchange="uploadBg(this)"></label>
+        <div style="font-size:11px;color:rgba(232,230,224,0.4);margin-bottom:5px;">Effect</div>
+        <div style="display:flex;gap:3px;" id="fxSeg">
+          <button data-v="none" onclick="setFX(\'none\',this)" style="flex:1;font-size:11px;background:#262626;border:1px solid rgba(232,230,224,0.28);border-radius:6px;color:#e8e6e0;font-weight:500;padding:5px 4px;cursor:pointer;">None</button>
+          <button data-v="shadow" onclick="setFX(\'shadow\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">Shadow</button>
+          <button data-v="outline" onclick="setFX(\'outline\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">Outline</button>
+          <button data-v="glow" onclick="setFX(\'glow\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">Glow</button>
+        </div>
       </div>
-      <div class="dv"></div>
+
+      <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
+
       <div>
-        <div class="sl">Event Logo</div>
-        <div class="lp" id="logoPrev">No logo</div>
-        <label class="ub">📎 Upload logo<input type="file" accept="image/*" style="display:none;" onchange="uploadLogo(this)"></label>
-        <button class="sb" style="margin-top:4px;font-size:10px;width:100%;" onclick="removeLogo()">Remove logo</button>
+        <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,224,0.4);padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:8px;">Subtitle Box</div>
+        <div style="font-size:11px;color:rgba(232,230,224,0.4);margin-bottom:5px;">Style</div>
+        <div style="display:flex;gap:3px;margin-bottom:10px;" id="boxSeg">
+          <button data-v="black" onclick="setBox(\'black\',this)" style="flex:1;font-size:11px;background:#262626;border:1px solid rgba(232,230,224,0.28);border-radius:6px;color:#e8e6e0;font-weight:500;padding:5px 4px;cursor:pointer;">Black</button>
+          <button data-v="white" onclick="setBox(\'white\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">White</button>
+          <button data-v="blur" onclick="setBox(\'blur\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">Blur</button>
+          <button data-v="none" onclick="setBox(\'none\',this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">None</button>
+        </div>
+        <div style="font-size:11px;color:rgba(232,230,224,0.4);margin-bottom:5px;">Opacity <span id="opOut" style="color:#e8e6e0;">80</span>%</div>
+        <input type="range" min="0" max="100" value="80" oninput="D.boxOpacity=+this.value;document.getElementById(\'opOut\').textContent=this.value;render()" style="width:100%;accent-color:#e8e6e0;cursor:pointer;">
+      </div>
+
+      <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
+
+      <div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,224,0.4);padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:8px;">Separator Line</div>
+        <div style="display:flex;gap:3px;margin-bottom:8px;" id="sepSeg">
+          <button data-v="show" onclick="setSep(true,this)" style="flex:1;font-size:11px;background:#262626;border:1px solid rgba(232,230,224,0.28);border-radius:6px;color:#e8e6e0;font-weight:500;padding:5px 4px;cursor:pointer;">Show</button>
+          <button data-v="hide" onclick="setSep(false,this)" style="flex:1;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px 4px;cursor:pointer;">Hide</button>
+        </div>
+        <div style="font-size:11px;color:rgba(232,230,224,0.4);margin-bottom:5px;">Line color</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;" id="sepswatches">
+          <div class="sw on" data-val="rgba(255,255,255,0.4)" onclick="setSepC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid #e8e6e0;background:rgba(255,255,255,0.4);"></div>
+          <div class="sw" data-val="#ffffff" onclick="setSepC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#fff;"></div>
+          <div class="sw" data-val="#c9a84c" onclick="setSepC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#c9a84c;"></div>
+          <div class="sw" data-val="#5db88a" onclick="setSepC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#5db88a;"></div>
+          <div class="sw" data-val="#7dd3fc" onclick="setSepC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#7dd3fc;"></div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
+
+      <div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,224,0.4);padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:8px;">Background</div>
+        <div style="font-size:11px;color:rgba(232,230,224,0.4);margin-bottom:5px;">Color</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:8px;" id="bswatches">
+          <div class="sw on" data-val="#000000" onclick="setBC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid #e8e6e0;background:#000;"></div>
+          <div class="sw" data-val="#0d0d20" onclick="setBC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#0d0d20;"></div>
+          <div class="sw" data-val="#1a0a0a" onclick="setBC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#1a0a0a;"></div>
+          <div class="sw" data-val="#0a1a10" onclick="setBC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#0a1a10;"></div>
+          <div class="sw" data-val="#181818" onclick="setBC(this)" style="width:22px;height:22px;border-radius:4px;cursor:pointer;border:2px solid transparent;background:#181818;"></div>
+          <input type="color" value="#000000" oninput="D.bgColor=this.value;D.bgImage=\'\';render()" style="width:22px;height:22px;border:none;border-radius:4px;cursor:pointer;padding:0;">
+        </div>
+        <label style="display:block;width:100%;padding:7px;font-size:11px;background:#1e1e1e;border:1px dashed rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);cursor:pointer;text-align:center;">
+          Upload image background
+          <input type="file" accept="image/*" style="display:none;" onchange="uploadBg(this)">
+        </label>
+      </div>
+
+      <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
+
+      <div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(232,230,224,0.4);padding-bottom:7px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:8px;">Event Logo</div>
+        <div id="logoPrev" style="width:100%;height:42px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.06);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(232,230,224,0.18);overflow:hidden;margin-bottom:6px;">No logo</div>
+        <label style="display:block;width:100%;padding:7px;font-size:11px;background:#1e1e1e;border:1px dashed rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);cursor:pointer;text-align:center;margin-bottom:4px;">
+          Upload logo
+          <input type="file" accept="image/*" style="display:none;" onchange="uploadLogo(this)">
+        </label>
+        <button onclick="removeLogo()" style="width:100%;font-size:10px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:rgba(232,230,224,0.4);padding:5px;cursor:pointer;">Remove logo</button>
       </div>
     </div>
 
-    <div style="display:flex;flex-direction:column;overflow:hidden;min-height:0;">
+    <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;">
       <div style="padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);background:#161616;flex-shrink:0;">
-        <div><div style="font-size:13px;font-weight:500;">Live Preview</div><div style="font-size:11px;color:var(--muted);">How audience will see subtitles</div></div>
-        <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-          <div class="vw" id="pvw"><div class="vs"></div><div class="vs"></div><div class="vs"></div><div class="vs"></div><div class="vs"></div></div>
+        <div>
+          <div style="font-size:13px;font-weight:500;">Live Preview</div>
+          <div style="font-size:11px;color:rgba(232,230,224,0.4);">How audience will see subtitles</div>
         </div>
       </div>
+
       <div style="flex:1;display:flex;gap:14px;padding:14px;overflow:hidden;align-items:stretch;min-height:0;">
-        <div class="swrap" style="flex:2;">
-          <div class="stag">🖥 Landscape</div>
-          <div class="sframe">
-            <div class="sbg" id="pbgL"></div>
-            <div class="slogobox" id="plogoL"></div>
-            <div class="prev-sub">
-              <div class="prev-inner" id="prevInnerL">
-                <div class="prev-thai" id="pthL" style="font-size:22px;color:#fff;">กด Go Live เพื่อเริ่ม</div>
-                <div class="prev-line" id="pdivL" style="background:rgba(255,255,255,0.4);"></div>
-                <div class="prev-eng" id="peL" style="font-family:'Inter',sans-serif;font-size:22px;color:#fff;font-weight:600;">Press Go Live to start</div>
+        <div style="flex:2;display:flex;flex-direction:column;gap:6px;">
+          <div style="font-size:10px;color:rgba(232,230,224,0.4);">Landscape</div>
+          <div style="flex:1;border-radius:8px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.11);background:#000;min-height:0;">
+            <div id="pbgL" style="position:absolute;inset:0;background:#000;background-size:cover;background-position:center;"></div>
+            <div id="plogoL" style="position:absolute;top:12px;left:12px;z-index:3;max-width:70px;max-height:30px;"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;">
+              <div id="prevInnerL" style="width:88%;max-width:600px;display:flex;flex-direction:column;align-items:center;background:rgba(0,0,0,0.8);padding:10px 16px;border-radius:7px;">
+                <div id="pthL" style="font-family:\'Sarabun\',sans-serif;font-size:22px;color:#fff;line-height:1.3;text-align:center;padding-bottom:7px;width:100%;">Press Go Live to start</div>
+                <div id="pdivL" style="height:1px;background:rgba(255,255,255,0.4);width:100%;"></div>
+                <div id="peL" style="font-family:\'Inter\',sans-serif;font-size:22px;color:#fff;font-weight:600;line-height:1.25;text-align:center;padding-top:7px;width:100%;">Press Go Live to start</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="swrap" style="align-items:center;">
-          <div class="stag">📱 Phone</div>
-          <div class="sframe phone" style="height:308px;">
-            <div class="notch"></div>
-            <div class="sbg" id="pbgP"></div>
-            <div class="slogobox" id="plogoP" style="max-width:42px;max-height:20px;"></div>
-            <div class="prev-sub">
-              <div class="prev-inner" id="prevInnerP" style="width:92%;">
-                <div class="prev-thai" id="pthP" style="font-size:11px;color:#fff;">กด Go Live เพื่อเริ่ม</div>
-                <div class="prev-line" id="pdivP" style="background:rgba(255,255,255,0.4);"></div>
-                <div class="prev-eng" id="peP" style="font-family:'Inter',sans-serif;font-size:11px;color:#fff;font-weight:600;">Press Go Live to start</div>
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:center;">
+          <div style="font-size:10px;color:rgba(232,230,224,0.4);">Phone</div>
+          <div style="flex:0 0 auto;width:168px;height:308px;border-radius:18px;border:2px solid #2a2a2a;position:relative;overflow:hidden;background:#000;">
+            <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:54px;height:10px;background:#1a1a1a;border-radius:0 0 8px 8px;z-index:5;"></div>
+            <div id="pbgP" style="position:absolute;inset:0;background:#000;background-size:cover;background-position:center;"></div>
+            <div id="plogoP" style="position:absolute;top:16px;left:10px;z-index:3;max-width:42px;max-height:20px;"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;">
+              <div id="prevInnerP" style="width:92%;display:flex;flex-direction:column;align-items:center;background:rgba(0,0,0,0.8);padding:6px 10px;border-radius:6px;">
+                <div id="pthP" style="font-family:\'Sarabun\',sans-serif;font-size:11px;color:#fff;line-height:1.3;text-align:center;padding-bottom:5px;width:100%;">Press Go Live to start</div>
+                <div id="pdivP" style="height:1px;background:rgba(255,255,255,0.4);width:100%;"></div>
+                <div id="peP" style="font-family:\'Inter\',sans-serif;font-size:11px;color:#fff;font-weight:600;line-height:1.25;text-align:center;padding-top:5px;width:100%;">Press Go Live to start</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="abar">
+
+      <div style="padding:12px 18px;border-top:1px solid rgba(255,255,255,0.06);background:#161616;display:flex;align-items:center;gap:10px;flex-shrink:0;">
         <div id="dact" style="display:flex;gap:8px;align-items:center;width:100%;">
-          <button class="abtn abp" onclick="goWait()">→ Waiting Room</button>
-          <span style="font-size:11px;color:var(--muted);">Design auto-saved</span>
+          <button onclick="goWait()" style="padding:9px 20px;border-radius:6px;border:none;background:#e8e6e0;color:#0e0e0e;font-size:12px;font-weight:600;cursor:pointer;">Waiting Room</button>
+          <span style="font-size:11px;color:rgba(232,230,224,0.4);">Design auto-saved</span>
         </div>
         <div id="lact" style="display:none;width:100%;align-items:center;">
           <div style="display:flex;align-items:center;gap:12px;width:100%;">
-            <button id="micBtn" onclick="toggleMic()" style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.11);background:#262626;color:#e8e6e0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">🎤</button>
+            <button id="micBtn" onclick="toggleMic()" style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.11);background:#262626;color:#e8e6e0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">MIC</button>
             <div>
-              <div id="mst" style="font-size:12px;color:rgba(232,230,224,0.4);"><strong style="color:#e8e6e0;">Ready</strong> — click mic to start</div>
+              <div id="mst" style="font-size:12px;color:rgba(232,230,224,0.4);"><strong style="color:#e8e6e0;">Ready</strong> - click mic to start</div>
               <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
                 <div id="mvw" style="display:flex;gap:2px;align-items:flex-end;height:18px;">
-                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
-                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
-                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
-                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
-                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
+                  <div class="vs"></div><div class="vs"></div><div class="vs"></div><div class="vs"></div><div class="vs"></div>
                 </div>
                 <span id="rtag" style="font-size:10px;color:rgba(232,230,224,0.4);"></span>
               </div>
             </div>
             <div style="margin-left:auto;display:flex;gap:8px;flex-shrink:0;">
-              <button onclick="backDesign()" style="padding:9px 20px;border-radius:6px;border:1px solid rgba(255,255,255,0.11);background:#1e1e1e;color:#e8e6e0;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">← Design</button>
-              <button onclick="endSess()" style="padding:9px 20px;border-radius:6px;border:1px solid rgba(217,95,95,0.22);background:rgba(217,95,95,0.1);color:#d95f5f;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">End Session</button>
+              <button onclick="backDesign()" style="padding:9px 20px;border-radius:6px;border:1px solid rgba(255,255,255,0.11);background:#1e1e1e;color:#e8e6e0;font-size:12px;font-weight:600;cursor:pointer;">Design</button>
+              <button onclick="endSess()" style="padding:9px 20px;border-radius:6px;border:1px solid rgba(217,95,95,0.22);background:rgba(217,95,95,0.1);color:#d95f5f;font-size:12px;font-weight:600;cursor:pointer;">End Session</button>
             </div>
           </div>
         </div>
@@ -335,20 +241,18 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
   </div>
 </div>
 
-<!-- WAITING ROOM -->
-<div id="page-waiting" class="page">
-  <div class="topbar">
-    <div class="tlogo">Liquid<em>Metal</em></div>
-    <span style="font-size:11px;color:var(--muted);">Waiting Room</span>
-    <div class="tright">
-      <span class="chip cgreen" id="audCnt">0 connected</span>
-      <span class="chip cdim">Waiting</span>
+<div id="page-waiting" class="page" style="background:#0e0e0e;">
+  <div style="display:flex;align-items:center;gap:14px;padding:0 22px;height:50px;border-bottom:1px solid rgba(255,255,255,0.06);background:#161616;flex-shrink:0;">
+    <div style="font-family:\'Oswald\',sans-serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;">Liquid<em style="color:#c9a84c;font-style:normal;">Metal</em></div>
+    <span style="font-size:11px;color:rgba(232,230,224,0.4);">Waiting Room</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+      <span id="audCnt" style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(93,184,138,0.3);background:rgba(93,184,138,0.07);color:#5db88a;">0 connected</span>
+      <span style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid rgba(255,255,255,0.11);color:rgba(232,230,224,0.4);">Waiting</span>
     </div>
   </div>
-  <div id="waitBody" style="flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0;">
-    <!-- LEFT: preview -->
+  <div style="flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0;">
     <div style="flex:1;position:relative;background:#000;overflow:hidden;">
-      <div class="sbg" id="wbg"></div>
+      <div id="wbg" style="position:absolute;inset:0;background:#000;background-size:cover;background-position:center;"></div>
       <div id="wlogo" style="position:absolute;top:20px;left:20px;z-index:3;max-width:120px;max-height:52px;"></div>
       <div style="position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
         <div style="font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:3px;text-transform:uppercase;">Event starting soon</div>
@@ -358,7 +262,6 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
         <div id="wrtxt" style="font-size:10px;color:rgba(255,255,255,0.25);max-width:260px;text-align:center;word-break:break-all;">Scan to join</div>
       </div>
     </div>
-    <!-- RIGHT: panel -->
     <div style="width:300px;flex-shrink:0;background:#161616;border-left:1px solid rgba(255,255,255,0.06);padding:22px 18px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;">
       <div>
         <div style="font-size:15px;font-weight:500;color:#e8e6e0;margin-bottom:4px;">Share with audience</div>
@@ -366,8 +269,8 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
       </div>
       <div style="background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:10px;padding:14px;">
         <div style="font-size:9px;color:rgba(232,230,224,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Room code</div>
-        <div id="dcode" style="font-family:'Oswald',sans-serif;font-size:30px;font-weight:700;letter-spacing:8px;color:#c9a84c;">——</div>
-        <div id="durl" style="font-size:10px;color:rgba(232,230,224,0.4);margin-top:4px;word-break:break-all;">—</div>
+        <div id="dcode" style="font-family:\'Oswald\',sans-serif;font-size:30px;font-weight:700;letter-spacing:8px;color:#c9a84c;">------</div>
+        <div id="durl" style="font-size:10px;color:rgba(232,230,224,0.4);margin-top:4px;word-break:break-all;">-</div>
       </div>
       <div style="text-align:center;">
         <div style="background:#fff;border-radius:8px;padding:10px;width:140px;height:140px;margin:0 auto;display:flex;align-items:center;justify-content:center;">
@@ -375,9 +278,7 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
         </div>
         <div style="font-size:10px;color:rgba(232,230,224,0.4);margin-top:7px;">Scan or share the link</div>
       </div>
-      <button onclick="copyLink()" style="width:100%;padding:9px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:#e8e6e0;font-family:'Inter',sans-serif;font-size:12px;cursor:pointer;">
-        📋 Copy audience link
-      </button>
+      <button onclick="copyLink()" style="width:100%;padding:9px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:#e8e6e0;font-size:12px;cursor:pointer;">Copy audience link</button>
       <div style="font-size:11px;color:rgba(232,230,224,0.4);line-height:1.8;">
         <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Before going live</div>
         <ul style="margin-left:16px;">
@@ -387,50 +288,58 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
         </ul>
       </div>
       <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;">
-        <button onclick="goLive()" style="width:100%;padding:13px;background:#5db88a;border:none;border-radius:6px;color:#0e0e0e;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">
-          🔴 Go Live
-        </button>
-        <button onclick="backDesignW()" style="width:100%;padding:9px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:#e8e6e0;font-family:'Inter',sans-serif;font-size:12px;cursor:pointer;">
-          ← Back to Design
-        </button>
+        <button onclick="goLive()" style="width:100%;padding:13px;background:#5db88a;border:none;border-radius:6px;color:#0e0e0e;font-size:14px;font-weight:700;cursor:pointer;">Go Live</button>
+        <button onclick="backDesignW()" style="width:100%;padding:9px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:#e8e6e0;font-size:12px;cursor:pointer;">Back to Design</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- AUDIENCE -->
 <div id="page-audience" class="page">
-  <div class="abg" id="audBg"></div>
-  <div class="alogo" id="audLogo"></div>
-  <div class="await" id="audWait"><div class="adot"></div><div class="awt">Event starting soon</div></div>
-  <div class="aanchor" id="audAnch">
-    <div class="abox" id="audBox">
-      <div class="split-wrap">
-        <div class="thai-stack" id="thaiStack"></div>
-        <div class="center-line" id="centerLine" style="background:rgba(255,255,255,0.4);"></div>
-        <div class="eng-stack" id="engStack"></div>
+  <div id="audBg" style="position:absolute;inset:0;background:#000;background-size:cover;background-position:center;z-index:0;"></div>
+  <div id="audLogo" style="position:absolute;top:16px;left:16px;z-index:3;max-width:100px;max-height:46px;"></div>
+  <div id="audWait" style="position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
+    <div style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.22);animation:dp 1.8s ease infinite;"></div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.28);letter-spacing:3px;text-transform:uppercase;">Event starting soon</div>
+  </div>
+  <div id="audAnch" style="position:absolute;inset:0;z-index:4;display:none;align-items:center;justify-content:center;">
+    <div id="audBox" style="width:88%;max-width:900px;padding:14px 22px;border-radius:8px;background:rgba(0,0,0,0.8);">
+      <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+        <div id="thaiStack" style="width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;min-height:1.4em;padding-bottom:9px;"></div>
+        <div id="centerLine" style="width:100%;height:1px;flex-shrink:0;background:rgba(255,255,255,0.4);"></div>
+        <div id="engStack" style="width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;min-height:1.3em;padding-top:9px;"></div>
       </div>
     </div>
   </div>
-  <button class="agear" id="gearBtn" onclick="togCtrl()">⚙</button>
-  <div class="actrl" id="actrl">
-    <div><div class="aclbl">Size</div><div class="mseg"><button class="mb" onclick="audSz('S',this)">S</button><button class="mb on" onclick="audSz('M',this)">M</button><button class="mb" onclick="audSz('L',this)">L</button></div></div>
-    <div><div class="aclbl">Show</div><div class="mseg"><button class="mb on" onclick="audLg('eng',this)">English</button><button class="mb" onclick="audLg('both',this)">Both</button><button class="mb" onclick="audLg('thai',this)">Thai</button></div></div>
+  <button id="gearBtn" onclick="togCtrl()" style="position:absolute;bottom:10px;right:14px;z-index:11;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:5px;color:rgba(255,255,255,0.35);font-size:11px;padding:4px 9px;cursor:pointer;">SET</button>
+  <div id="actrl" style="position:absolute;bottom:0;left:0;right:0;z-index:10;background:rgba(14,14,14,0.88);backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,0.05);padding:10px 18px 12px;display:flex;align-items:center;gap:18px;opacity:0;pointer-events:none;transition:opacity 0.25s;">
+    <div>
+      <div style="font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Size</div>
+      <div style="display:flex;gap:3px;" id="audSzSeg">
+        <button data-v="S" onclick="audSz(\'S\',this)" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:4px;color:rgba(255,255,255,0.4);padding:3px 10px;cursor:pointer;">S</button>
+        <button data-v="M" onclick="audSz(\'M\',this)" style="font-size:10px;background:rgba(232,230,224,0.13);border:1px solid rgba(232,230,224,0.28);border-radius:4px;color:#e8e6e0;padding:3px 10px;cursor:pointer;">M</button>
+        <button data-v="L" onclick="audSz(\'L\',this)" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:4px;color:rgba(255,255,255,0.4);padding:3px 10px;cursor:pointer;">L</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">Show</div>
+      <div style="display:flex;gap:3px;" id="audLgSeg">
+        <button data-v="eng" onclick="audLg(\'eng\',this)" style="font-size:10px;background:rgba(232,230,224,0.13);border:1px solid rgba(232,230,224,0.28);border-radius:4px;color:#e8e6e0;padding:3px 10px;cursor:pointer;">English</button>
+        <button data-v="both" onclick="audLg(\'both\',this)" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:4px;color:rgba(255,255,255,0.4);padding:3px 10px;cursor:pointer;">Both</button>
+        <button data-v="thai" onclick="audLg(\'thai\',this)" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:4px;color:rgba(255,255,255,0.4);padding:3px 10px;cursor:pointer;">Thai</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div id="toast" style="position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:#262626;border:1px solid rgba(255,255,255,0.11);border-radius:7px;padding:9px 18px;font-size:12px;color:#e8e6e0;box-shadow:0 8px 28px rgba(0,0,0,0.5);z-index:999;opacity:0;transition:opacity 0.25s,transform 0.25s;pointer-events:none;"></div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <script>
-// ── CONFIG ──
-// IMPORTANT: Replace this with your Railway backend URL after deploying
-const BACKEND_WS = "wss://livesub-backend-production.up.railway.app";
-const BACKEND_HTTP = "https://livesub-backend-production.up.railway.app";
-const PASS = "kingcobra";
-const SITEURL = window.location.origin + window.location.pathname;
+var BACKEND_WS = "wss://livesub-backend-production.up.railway.app";
+var PASS = "kingcobra";
+var SITEURL = window.location.origin + window.location.pathname;
 
-// ── STATE ──
 var D = {
   font:"Inter", size:"M", textColor:"#ffffff", effect:"none",
   box:"black", boxOpacity:80, bgColor:"#000000", bgImage:"",
@@ -438,62 +347,79 @@ var D = {
 };
 var AUDSZ = "M", AUDLG = "eng";
 var SZ = {S:{L:20,P:12}, M:{L:28,P:16}, L:{L:40,P:22}};
-var ws = null, isHost = false, RCODE = "", mediaStream = null;
+var ws = null, RCODE = "", history = [];
 var curThaiEl = null, curEngEl = null;
-var history = [];
+var listening = false, mediaStream = null, audioCtx = null, processor = null, volTimer = null;
+var ctrlOn = false;
 
-// ── GATE ──
+function showPg(id) {
+  var pages = document.querySelectorAll(".page");
+  for (var i = 0; i < pages.length; i++) pages[i].classList.remove("active");
+  document.getElementById(id).classList.add("active");
+}
+
+function toggleEye() {
+  var i = document.getElementById("gateInput");
+  var b = document.getElementById("eyeBtn");
+  if (i.type === "password") { i.type = "text"; b.textContent = "HIDE"; }
+  else { i.type = "password"; b.textContent = "SHOW"; }
+}
+
 function checkGate() {
   var v = document.getElementById("gateInput").value.trim();
-  if (v === PASS) {
-    var rm = new URLSearchParams(window.location.search).get("room");
-    if (rm) { joinAudience(rm); return; }
-    showPg("page-host");
-    loadMics();
-    connectHostWS();
-  } else {
+  if (v !== PASS) {
     document.getElementById("gateErr").textContent = "Incorrect password";
-    var i = document.getElementById("gateInput");
-    i.classList.add("shake");
-    setTimeout(function(){ i.classList.remove("shake"); }, 400);
+    var inp = document.getElementById("gateInput");
+    inp.style.borderColor = "#d95f5f";
+    setTimeout(function(){ inp.style.borderColor = "rgba(255,255,255,0.11)"; }, 600);
+    return;
   }
-}
-function toggleEye(btn) {
-  var i = document.getElementById("gateInput");
-  if (i.type === "password") { i.type = "text"; btn.textContent = "X"; }
-  else { i.type = "password"; btn.textContent = "👁"; }
-}
-function showPg(id) {
-  document.querySelectorAll(".page").forEach(function(p){
-    p.classList.remove("active");
-    p.style.display="none";
-  });
-  var el = document.getElementById(id);
-  el.classList.add("active");
-  el.style.display = "flex";
-  el.style.flexDirection = "column";
+  var params = new URLSearchParams(window.location.search);
+  var roomFromUrl = params.get("room");
+  if (roomFromUrl) {
+    joinAudience(roomFromUrl);
+    return;
+  }
+  showPg("page-host");
+  loadMics();
+  connectHostWS();
 }
 
-// ── MIC DEVICE LIST ──
-async function loadMics() {
-  try {
-    await navigator.mediaDevices.getUserMedia({ audio: true });
-    var devices = await navigator.mediaDevices.enumerateDevices();
+document.addEventListener("keydown", function(e){
+  if (e.key === "Enter" && document.getElementById("page-gate").classList.contains("active")) {
+    checkGate();
+  }
+});
+
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  if (params.get("room")) {
+    var el = document.getElementById("gateSub");
+    if (el) el.textContent = "Enter password to join the live event";
+  }
+})();
+
+function loadMics() {
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(function(){
+    return navigator.mediaDevices.enumerateDevices();
+  }).then(function(devices){
     var sel = document.getElementById("micSel");
     sel.innerHTML = "";
-    var audioInputs = devices.filter(function(d){ return d.kind === "audioinput"; });
-    audioInputs.forEach(function(d, i){
-      var o = document.createElement("option");
-      o.value = d.deviceId;
-      o.textContent = d.label || ("Mic " + (i + 1));
-      sel.appendChild(o);
+    var count = 0;
+    devices.forEach(function(d){
+      if (d.kind === "audioinput") {
+        count++;
+        var o = document.createElement("option");
+        o.value = d.deviceId;
+        o.textContent = d.label || ("Microphone " + count);
+        sel.appendChild(o);
+      }
     });
-  } catch(e) {
+  }).catch(function(e){
     console.error("Mic list error:", e);
-  }
+  });
 }
 
-// ── WEBSOCKET ──
 function connectHostWS() {
   setConn("connecting");
   ws = new WebSocket(BACKEND_WS);
@@ -512,8 +438,10 @@ function connectHostWS() {
 
   ws.onmessage = function(ev) {
     if (typeof ev.data === "string") {
-      var msg = JSON.parse(ev.data);
-      handleServerMsg(msg);
+      try {
+        var msg = JSON.parse(ev.data);
+        handleHostMsg(msg);
+      } catch(e) { console.error("parse error", e); }
     }
   };
 
@@ -521,7 +449,36 @@ function connectHostWS() {
     setConn("err");
     setTimeout(connectHostWS, 3000);
   };
-  ws.onerror = function() { setConn("err"); };
+  ws.onerror = function(e) { console.error("WS error", e); setConn("err"); };
+}
+
+function handleHostMsg(msg) {
+  switch(msg.type) {
+    case "host_joined":
+      setupWaitingRoom();
+      break;
+    case "deepgram_ready":
+      document.getElementById("mst").innerHTML = "<strong style=\'color:#e8e6e0;\'>Listening...</strong> speak Thai";
+      startVolAnim();
+      break;
+    case "thai_interim":
+      if (curThaiEl) { curThaiEl.textContent = msg.thai; }
+      else { pushSub(msg.thai, "..."); }
+      updatePreview(msg.thai, null);
+      break;
+    case "subtitle":
+      if (msg.isFinal) {
+        pushSub(msg.thai, msg.eng);
+      } else {
+        if (curThaiEl) curThaiEl.textContent = msg.thai;
+        if (curEngEl) curEngEl.textContent = msg.eng === "..." ? "..." : msg.eng;
+      }
+      updatePreview(msg.thai, msg.eng);
+      break;
+    case "error":
+      toast("Error: " + msg.message);
+      break;
+  }
 }
 
 function connectAudienceWS(code) {
@@ -530,45 +487,14 @@ function connectAudienceWS(code) {
     ws.send(JSON.stringify({ type: "audience_join", password: PASS, roomCode: code }));
   };
   ws.onmessage = function(ev) {
-    var msg = JSON.parse(ev.data);
-    handleAudienceMsg(msg);
+    try {
+      var msg = JSON.parse(ev.data);
+      handleAudienceMsg(msg);
+    } catch(e) { console.error(e); }
   };
   ws.onclose = function() {
     setTimeout(function(){ connectAudienceWS(code); }, 2000);
   };
-}
-
-function handleServerMsg(msg) {
-  switch(msg.type) {
-    case "host_joined":
-      setupWaitingRoom();
-      break;
-    case "deepgram_ready":
-      document.getElementById("mst").innerHTML = "<strong>Listening…</strong> speak Thai";
-      startVolAnim();
-      break;
-    case "thai_interim":
-      // Thai arrives instantly — update silently
-      if (curThaiEl) updateThaiOnly(msg.thai);
-      else pushSub(msg.thai, "…");
-      updatePreview(msg.thai, null);
-      break;
-    case "subtitle":
-      // Full translation arrived — push new row if final
-      if (msg.isFinal) {
-        pushSub(msg.thai, msg.eng);
-      } else {
-        updateCurrent(msg.thai, msg.eng);
-      }
-      updatePreview(msg.thai, msg.eng);
-      break;
-    case "status":
-      if (msg.status === "ended") toast("Session ended");
-      break;
-    case "error":
-      toast("Error: " + msg.message);
-      break;
-  }
 }
 
 function handleAudienceMsg(msg) {
@@ -577,19 +503,23 @@ function handleAudienceMsg(msg) {
       if (msg.room) applyRoomState(msg.room);
       break;
     case "thai_interim":
-      if (curThaiEl) updateThaiOnly(msg.thai);
-      else pushSub(msg.thai, "…");
+      if (curThaiEl) { curThaiEl.textContent = msg.thai; }
+      else { pushSub(msg.thai, "..."); }
       break;
     case "subtitle":
-      if (msg.isFinal) pushSub(msg.thai, msg.eng);
-      else updateCurrent(msg.thai, msg.eng);
+      if (msg.isFinal) {
+        pushSub(msg.thai, msg.eng);
+      } else {
+        if (curThaiEl) curThaiEl.textContent = msg.thai;
+        if (curEngEl) curEngEl.textContent = msg.eng === "..." ? "..." : msg.eng;
+      }
       break;
     case "status":
       if (msg.status === "live") {
         document.getElementById("audWait").style.display = "none";
         document.getElementById("audAnch").style.display = "flex";
       } else if (msg.status === "ended") {
-        document.getElementById("audWait").innerHTML = '<div class="awt">Thank you — session ended</div>';
+        document.getElementById("audWait").innerHTML = \'<div style="font-size:12px;color:rgba(255,255,255,0.28);letter-spacing:3px;text-transform:uppercase;">Thank you - session ended</div>\';
         document.getElementById("audWait").style.display = "flex";
         document.getElementById("audAnch").style.display = "none";
       }
@@ -609,6 +539,8 @@ function applyRoomState(room) {
   } else if (room.status === "live") {
     document.getElementById("audWait").style.display = "none";
     document.getElementById("audAnch").style.display = "flex";
+  } else if (room.status === "ended") {
+    document.getElementById("audWait").innerHTML = \'<div style="font-size:12px;color:rgba(255,255,255,0.28);letter-spacing:3px;text-transform:uppercase;">Session ended</div>\';
   }
 }
 
@@ -618,19 +550,18 @@ function applyAudienceBg() {
   var cl = document.getElementById("centerLine");
   if (cl) cl.style.background = D.showSep ? D.sepColor : "transparent";
   var abox = document.getElementById("audBox");
-  if (abox) { abox.style.cssText = "background:" + boxBg(D.boxOpacity) + ";padding:14px 22px;border-radius:8px;width:88%;max-width:900px;"; }
+  if (abox) abox.style.background = boxBg(D.boxOpacity);
 }
 
 function setConn(state) {
   var dot = document.getElementById("connDot");
   var txt = document.getElementById("connTxt");
   if (!dot) return;
-  if (state === "ok") { dot.className = "conn-dot ok"; txt.textContent = "Connected"; }
-  else if (state === "err") { dot.className = "conn-dot err"; txt.textContent = "Reconnecting..."; }
-  else { dot.className = "conn-dot"; txt.textContent = "Connecting..."; }
+  if (state === "ok") { dot.style.background = "#5db88a"; txt.textContent = "Connected"; }
+  else if (state === "err") { dot.style.background = "#d95f5f"; txt.textContent = "Reconnecting..."; }
+  else { dot.style.background = "rgba(232,230,224,0.4)"; txt.textContent = "Connecting..."; }
 }
 
-// ── SUBTITLE ENGINE ──
 function getTS() {
   var ts = "none", wts = "none";
   if (D.effect === "shadow") ts = "2px 3px 8px rgba(0,0,0,0.95)";
@@ -645,64 +576,23 @@ function boxBg(op) {
   return "rgba(0,0,0," + o + ")";
 }
 
-function updateThaiOnly(thai) {
-  if (curThaiEl) curThaiEl.textContent = thai;
-}
-function updateCurrent(thai, eng) {
-  if (curThaiEl) curThaiEl.textContent = thai;
-  if (curEngEl && eng) curEngEl.textContent = eng === "..." ? "…" : eng;
-}
-
-function pushSub(thai, eng) {
-  history.push({thai:thai, eng:eng});
-  if (history.length > 8) history.shift();
-
-  var sz = (SZ[AUDSZ] || SZ.M).L;
-  var t = getTS(); var ts = t.ts; var wts = t.wts;
-  var lg = AUDLG;
-  var TS = document.getElementById("thaiStack");
-  var ES = document.getElementById("engStack");
-  if (!TS || !ES) return;
-
-  var SL = "transform 0.4s cubic-bezier(0.25,0.8,0.25,1)";
-
-  if (lg !== "eng") {
-    Array.from(TS.children).forEach(function(el){ el.style.transition=SL; el.style.transform="translateY(-110%)"; });
-    var rem = Array.from(TS.children);
-    setTimeout(function(){ rem.forEach(function(el){ if(el.parentNode===TS)TS.removeChild(el); }); }, 420);
-    var el = document.createElement("span");
-    el.style.cssText = "font-family:'Sarabun',sans-serif;font-size:" + sz + "px;color:" + D.textColor + ";line-height:1.35;text-shadow:" + ts + ";text-align:center;width:100%;display:block;transform:translateY(110%);transition:" + SL + ";";
-    el.textContent = thai;
-    TS.appendChild(el); curThaiEl = el;
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.style.transform="translateY(0)"; }); });
-  }
-
-  if (lg !== "thai") {
-    Array.from(ES.children).forEach(function(el){ el.style.transition=SL; el.style.transform="translateY(110%)"; });
-    var rem2 = Array.from(ES.children);
-    setTimeout(function(){ rem2.forEach(function(el){ if(el.parentNode===ES)ES.removeChild(el); }); }, 420);
-    var el2 = document.createElement("span");
-    el2.style.cssText = "font-family:'" + D.font + "',sans-serif;font-size:" + sz + "px;color:" + D.textColor + ";font-weight:600;line-height:1.25;text-shadow:" + ts + ";-webkit-text-stroke:" + wts + ";text-align:center;width:100%;display:block;transform:translateY(-110%);transition:" + SL + ";";
-    el2.textContent = (eng === "..." || eng === "…") ? "…" : eng;
-    ES.appendChild(el2); curEngEl = el2;
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ el2.style.transform="translateY(0)"; }); });
-  }
-}
-
-function updatePreview(thai, eng) {
-  var pth = document.getElementById("pthL"); if (pth && thai) pth.textContent = thai;
-  var pe = document.getElementById("peL"); if (pe && eng) pe.textContent = eng === "..." ? "…" : eng;
-}
-
-// ── RENDER ──
 function render() {
-  var t = getTS(); var ts = t.ts; var wts = t.wts;
-  var bgS = D.bgImage ? "background-image:url(" + D.bgImage + ");background-size:cover;background-position:center;" : "background:" + D.bgColor + ";";
-  ["pbgL","pbgP","wbg","audBg"].forEach(function(id){ var el=document.getElementById(id); if(el)el.setAttribute("style",bgS); });
-  var lh = D.logoSrc ? '<img src="' + D.logoSrc + '">' : "";
-  ["plogoL","plogoP","wlogo"].forEach(function(id){ var el=document.getElementById(id); if(el)el.innerHTML=lh; });
+  var t = getTS();
+  var bgS = D.bgImage ? ("background-image:url(" + D.bgImage + ");background-size:cover;background-position:center;") : ("background:" + D.bgColor + ";");
+  ["pbgL","pbgP","wbg"].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.style.cssText = "position:absolute;inset:0;" + bgS;
+  });
+  var audBgEl = document.getElementById("audBg");
+  if (audBgEl) audBgEl.style.cssText = "position:absolute;inset:0;z-index:0;" + bgS;
+
+  var lh = D.logoSrc ? (\'<img src="\' + D.logoSrc + \'" style="max-width:100%;max-height:100%;object-fit:contain;">\') : "";
+  ["plogoL","plogoP","wlogo"].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = lh;
+  });
   var al = document.getElementById("audLogo");
-  if (al) al.innerHTML = D.logoSrc ? '<img src="' + D.logoSrc + '" style="max-width:100%;max-height:100%;object-fit:contain;">' : "";
+  if (al) al.innerHTML = lh;
 
   var szL = SZ[D.size].L, szP = SZ[D.size].P;
   ["L","P"].forEach(function(s){
@@ -711,37 +601,115 @@ function render() {
     var en = document.getElementById("pe"+s);
     var dv = document.getElementById("pdiv"+s);
     var inn = document.getElementById("prevInner"+s);
-    if(th) th.style.cssText = "font-family:'Sarabun',sans-serif;font-size:"+sz+"px;color:"+D.textColor+";line-height:1.3;text-shadow:"+ts+";text-align:center;padding-bottom:7px;width:100%;";
-    if(en) en.style.cssText = "font-family:'"+D.font+"',sans-serif;font-size:"+sz+"px;color:"+D.textColor+";font-weight:600;line-height:1.25;text-shadow:"+ts+";-webkit-text-stroke:"+wts+";text-align:center;padding-top:7px;width:100%;";
-    if(dv) dv.style.cssText = "height:1px;background:"+(D.showSep?D.sepColor:"transparent")+";width:100%;";
-    if(inn) { var bf=D.box==="blur"?"blur(14px)":"none"; inn.style.cssText="width:"+(s==="L"?"88%":"92%")+";display:flex;flex-direction:column;align-items:center;background:"+boxBg(D.boxOpacity)+";padding:10px 16px;border-radius:7px;backdrop-filter:"+bf+";"; }
+    if (th) th.style.cssText = "font-family:\'Sarabun\',sans-serif;font-size:"+sz+"px;color:"+D.textColor+";line-height:1.3;text-shadow:"+t.ts+";text-align:center;padding-bottom:7px;width:100%;";
+    if (en) en.style.cssText = "font-family:\'"+D.font+"\',sans-serif;font-size:"+sz+"px;color:"+D.textColor+";font-weight:600;line-height:1.25;text-shadow:"+t.ts+";-webkit-text-stroke:"+t.wts+";text-align:center;padding-top:7px;width:100%;";
+    if (dv) dv.style.cssText = "height:1px;background:"+(D.showSep?D.sepColor:"transparent")+";width:100%;";
+    if (inn) {
+      var bf = D.box === "blur" ? "blur(14px)" : "none";
+      inn.style.cssText = "width:"+(s==="L"?"88%":"92%")+";display:flex;flex-direction:column;align-items:center;background:"+boxBg(D.boxOpacity)+";padding:10px 16px;border-radius:7px;backdrop-filter:"+bf+";";
+    }
   });
+
   var abox = document.getElementById("audBox");
-  if (abox) { var bf=D.box==="blur"?"blur(14px)":"none"; abox.style.cssText="background:"+boxBg(D.boxOpacity)+";padding:14px 22px;border-radius:8px;width:88%;max-width:900px;backdrop-filter:"+bf+";"; }
+  if (abox) {
+    var bf2 = D.box === "blur" ? "blur(14px)" : "none";
+    abox.style.cssText = "width:88%;max-width:900px;padding:14px 22px;border-radius:8px;background:"+boxBg(D.boxOpacity)+";backdrop-filter:"+bf2+";";
+  }
   var cl = document.getElementById("centerLine");
   if (cl) cl.style.background = D.showSep ? D.sepColor : "transparent";
 }
 
-// ── DESIGN CONTROLS ──
-function setFont(el) { D.font=el.dataset.font; document.querySelectorAll(".fc").forEach(function(c){c.classList.remove("on");}); el.classList.add("on"); render(); sendDesign(); }
-function setSz(s,btn) { D.size=s; btn.parentElement.querySelectorAll(".sb").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); render(); sendDesign(); }
-function setFX(e,btn) { D.effect=e; btn.parentElement.querySelectorAll(".sb").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); render(); sendDesign(); }
-function setBox(b,btn) { D.box=b; btn.parentElement.querySelectorAll(".sb").forEach(function(b2){b2.classList.remove("on");}); btn.classList.add("on"); render(); sendDesign(); }
-function setSep(v,btn) { D.showSep=v; btn.parentElement.querySelectorAll(".sb").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); render(); sendDesign(); }
-function setSepC(el) { D.sepColor=el.dataset.val; document.querySelectorAll("#sepswatches .sw").forEach(function(s){s.classList.remove("on");}); el.classList.add("on"); render(); sendDesign(); }
-function setTC(el) { D.textColor=el.dataset.val; document.querySelectorAll("#tswatches .sw").forEach(function(s){s.classList.remove("on");}); el.classList.add("on"); render(); sendDesign(); }
-function setBC(el) { D.bgColor=el.dataset.val; D.bgImage=""; document.querySelectorAll("#bswatches .sw").forEach(function(s){s.classList.remove("on");}); el.classList.add("on"); render(); sendDesign(); }
-function uploadBg(input) { var f=input.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(e){ D.bgImage=e.target.result; render(); sendDesign(); }; r.readAsDataURL(f); }
-function uploadLogo(input) { var f=input.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(e){ D.logoSrc=e.target.result; document.getElementById("logoPrev").innerHTML='<img src="'+D.logoSrc+'">'; render(); sendDesign(); }; r.readAsDataURL(f); }
-function removeLogo() { D.logoSrc=""; document.getElementById("logoPrev").textContent="No logo"; render(); sendDesign(); }
-function uploadFont(input) { var f=input.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(e){ var name="CF_"+Date.now(); var st=document.createElement("style"); st.textContent="@font-face{font-family:'"+name+"';src:url('"+e.target.result+"');}"; document.head.appendChild(st); D.font=name; document.querySelectorAll(".fc").forEach(function(c){c.classList.remove("on");}); document.getElementById("cfName").textContent="+ "+f.name; setTimeout(render,200); }; r.readAsDataURL(f); }
+function updatePreview(thai, eng) {
+  var p1 = document.getElementById("pthL"); if (p1 && thai != null) p1.textContent = thai;
+  var p2 = document.getElementById("peL"); if (p2 && eng != null) p2.textContent = eng === "..." ? "..." : eng;
+}
 
-function stripDesign() { return {font:D.font,size:D.size,textColor:D.textColor,effect:D.effect,box:D.box,boxOpacity:D.boxOpacity,bgColor:D.bgColor,showSep:D.showSep,sepColor:D.sepColor}; }
-function sendDesign() { if (ws && ws.readyState === 1) ws.send(JSON.stringify({type:"update_design",design:stripDesign()})); }
+function styleSegBtn(btn, group) {
+  var all = group.querySelectorAll("button");
+  all.forEach(function(b){
+    b.style.background = "#1e1e1e";
+    b.style.border = "1px solid rgba(255,255,255,0.11)";
+    b.style.color = "rgba(232,230,224,0.4)";
+    b.style.fontWeight = "400";
+  });
+  btn.style.background = "#262626";
+  btn.style.border = "1px solid rgba(232,230,224,0.28)";
+  btn.style.color = "#e8e6e0";
+  btn.style.fontWeight = "500";
+}
+function styleSwatch(el, group) {
+  var all = group.querySelectorAll(".sw");
+  all.forEach(function(s){ s.classList.remove("on"); s.style.borderColor = "transparent"; });
+  el.classList.add("on");
+  el.style.borderColor = "#e8e6e0";
+}
 
-// ── ROOM & QR ──
-function genCode() { var c="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",s=""; for(var i=0;i<6;i++)s+=c[Math.floor(Math.random()*c.length)]; return s; }
-function makeQR(id,url) { var c=document.getElementById(id); if(!c)return; c.width=140;c.height=140; try{new QRCode(c,{text:url,width:140,height:140,colorDark:"#000",colorLight:"#fff"});}catch(e){} }
+function setFont(el) {
+  D.font = el.dataset.font;
+  var all = document.getElementById("fontGrid").querySelectorAll(".fc");
+  all.forEach(function(c){ c.classList.remove("on"); c.style.background = "#1e1e1e"; c.style.borderColor = "rgba(255,255,255,0.11)"; });
+  el.classList.add("on"); el.style.background = "#262626"; el.style.borderColor = "rgba(232,230,224,0.28)";
+  render(); sendDesign();
+}
+function setSz(s, btn) { D.size = s; styleSegBtn(btn, document.getElementById("sizeSeg")); render(); sendDesign(); }
+function setFX(e, btn) { D.effect = e; styleSegBtn(btn, document.getElementById("fxSeg")); render(); sendDesign(); }
+function setBox(b, btn) { D.box = b; styleSegBtn(btn, document.getElementById("boxSeg")); render(); sendDesign(); }
+function setSep(v, btn) { D.showSep = v; styleSegBtn(btn, document.getElementById("sepSeg")); render(); sendDesign(); }
+function setSepC(el) { D.sepColor = el.dataset.val; styleSwatch(el, document.getElementById("sepswatches")); render(); sendDesign(); }
+function setTC(el) { D.textColor = el.dataset.val; styleSwatch(el, document.getElementById("tswatches")); render(); sendDesign(); }
+function setBC(el) { D.bgColor = el.dataset.val; D.bgImage = ""; styleSwatch(el, document.getElementById("bswatches")); render(); sendDesign(); }
+
+function uploadBg(input) {
+  var f = input.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(e){ D.bgImage = e.target.result; render(); sendDesign(); };
+  r.readAsDataURL(f);
+}
+function uploadLogo(input) {
+  var f = input.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(e){
+    D.logoSrc = e.target.result;
+    document.getElementById("logoPrev").innerHTML = \'<img src="\'+D.logoSrc+\'" style="max-height:34px;max-width:100%;object-fit:contain;">\';
+    render(); sendDesign();
+  };
+  r.readAsDataURL(f);
+}
+function removeLogo() { D.logoSrc = ""; document.getElementById("logoPrev").textContent = "No logo"; render(); sendDesign(); }
+function uploadFont(input) {
+  var f = input.files[0]; if (!f) return;
+  var r = new FileReader();
+  r.onload = function(e){
+    var name = "CF_" + Date.now();
+    var st = document.createElement("style");
+    st.textContent = "@font-face{font-family:\'"+name+"\';src:url(\'"+e.target.result+"\');}";
+    document.head.appendChild(st);
+    D.font = name;
+    document.getElementById("cfName").textContent = "OK " + f.name;
+    setTimeout(render, 200);
+  };
+  r.readAsDataURL(f);
+}
+
+function stripDesign() {
+  return {font:D.font, size:D.size, textColor:D.textColor, effect:D.effect, box:D.box, boxOpacity:D.boxOpacity, bgColor:D.bgColor, showSep:D.showSep, sepColor:D.sepColor};
+}
+function sendDesign() {
+  if (ws && ws.readyState === 1) ws.send(JSON.stringify({type:"update_design", design:stripDesign()}));
+}
+
+function genCode() {
+  var c = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", s = "";
+  for (var i = 0; i < 6; i++) s += c[Math.floor(Math.random()*c.length)];
+  return s;
+}
+function makeQR(id, url) {
+  var c = document.getElementById(id);
+  if (!c) return;
+  c.innerHTML = ""; c.width = 120; c.height = 120;
+  try { new QRCode(c, {text:url, width:120, height:120, colorDark:"#000", colorLight:"#fff"}); }
+  catch(e) { console.error("QR error", e); }
+}
 
 function setupWaitingRoom() {
   var url = SITEURL + "?room=" + RCODE;
@@ -749,15 +717,17 @@ function setupWaitingRoom() {
   document.getElementById("durl").textContent = url;
   document.getElementById("wrtxt").textContent = url;
   document.getElementById("rtag").textContent = "Room: " + RCODE;
-  ["wqr","sqr"].forEach(function(id){ var c=document.getElementById(id); if(c){c.innerHTML="";c.width=140;c.height=140;} });
-  setTimeout(function(){ makeQR("wqr",url); makeQR("sqr",url); }, 120);
-  document.getElementById("wbg").setAttribute("style", D.bgImage ? "background-image:url("+D.bgImage+");background-size:cover;" : "background:"+D.bgColor+";");
-  document.getElementById("wlogo").innerHTML = D.logoSrc ? '<img src="'+D.logoSrc+'">' : "";
+  setTimeout(function(){ makeQR("wqr", url); makeQR("sqr", url); }, 100);
+  document.getElementById("wbg").style.cssText = D.bgImage ? ("position:absolute;inset:0;background-image:url("+D.bgImage+");background-size:cover;") : ("position:absolute;inset:0;background:"+D.bgColor+";");
+  document.getElementById("wlogo").innerHTML = D.logoSrc ? (\'<img src="\'+D.logoSrc+\'" style="max-width:100%;max-height:100%;object-fit:contain;">\') : "";
 }
 
-function goWait() { setupWaitingRoom(); showPg("page-waiting"); }
+function goWait() { showPg("page-waiting"); }
 function backDesignW() { showPg("page-host"); }
-function copyLink() { navigator.clipboard.writeText(SITEURL+"?room="+RCODE).then(function(){ toast("Link copied"); }); }
+function copyLink() {
+  var url = SITEURL + "?room=" + RCODE;
+  navigator.clipboard.writeText(url).then(function(){ toast("Link copied: " + url); });
+}
 
 function goLive() {
   if (ws && ws.readyState === 1) {
@@ -765,19 +735,31 @@ function goLive() {
   }
   document.getElementById("dact").style.display = "none";
   document.getElementById("lact").style.display = "flex";
-  document.getElementById("modeChip").textContent = "Live";
-  document.getElementById("modeChip").className = "chip cred";
+  var chip = document.getElementById("modeChip");
+  chip.textContent = "Live";
+  chip.style.color = "#d95f5f";
+  chip.style.borderColor = "rgba(217,95,95,0.3)";
+  chip.style.background = "rgba(217,95,95,0.07)";
+  chip.classList.add("livepulse");
   showPg("page-host");
-  toast("You are live!");
+  toast("You are live! Click the mic to start.");
+}
+
+function resetModeChip() {
+  var chip = document.getElementById("modeChip");
+  chip.textContent = "Design";
+  chip.style.color = "rgba(232,230,224,0.4)";
+  chip.style.borderColor = "rgba(255,255,255,0.11)";
+  chip.style.background = "transparent";
+  chip.classList.remove("livepulse");
 }
 
 function backDesign() {
   stopMic();
   document.getElementById("dact").style.display = "flex";
   document.getElementById("lact").style.display = "none";
-  document.getElementById("modeChip").textContent = "Design";
-  document.getElementById("modeChip").className = "chip cdim";
-  if (ws && ws.readyState === 1) ws.send(JSON.stringify({type:"update_design",design:stripDesign()}));
+  resetModeChip();
+  if (ws && ws.readyState === 1) ws.send(JSON.stringify({type:"update_design", design:stripDesign()}));
 }
 
 function endSess() {
@@ -786,35 +768,32 @@ function endSess() {
   if (ws && ws.readyState === 1) ws.send(JSON.stringify({type:"end_session"}));
   document.getElementById("dact").style.display = "flex";
   document.getElementById("lact").style.display = "none";
-  document.getElementById("modeChip").textContent = "Design";
-  document.getElementById("modeChip").className = "chip cdim";
+  resetModeChip();
   showPg("page-host");
   toast("Session ended");
 }
 
-// ── MIC — sends raw PCM audio to backend ──
-var audioCtx = null, processor = null, isListening = false, volTimer = null;
+function toggleMic() { listening ? stopMic() : startMic(); }
 
-function toggleMic() { isListening ? stopMic() : startMic(); }
+function startMic() {
+  var sel = document.getElementById("micSel");
+  var deviceId = sel && sel.value ? sel.value : undefined;
+  var constraints = { sampleRate: 16000, channelCount: 1, echoCancellation: true, noiseSuppression: true };
+  if (deviceId) constraints.deviceId = { exact: deviceId };
 
-async function startMic() {
-  try {
-    var sel = document.getElementById("micSel");
-    var deviceId = sel && sel.value ? sel.value : undefined;
-    var audioConstraints = { sampleRate: 16000, channelCount: 1, echoCancellation: true, noiseSuppression: true };
-    if (deviceId) audioConstraints.deviceId = { exact: deviceId };
-    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints });
+  navigator.mediaDevices.getUserMedia({ audio: constraints }).then(function(stream){
+    mediaStream = stream;
     audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
     var source = audioCtx.createMediaStreamSource(mediaStream);
     processor = audioCtx.createScriptProcessor(4096, 1, 1);
 
     processor.onaudioprocess = function(e) {
-      if (!isListening || !ws || ws.readyState !== 1) return;
+      if (!listening || !ws || ws.readyState !== 1) return;
       var float32 = e.inputBuffer.getChannelData(0);
-      // Convert to 16-bit PCM
       var int16 = new Int16Array(float32.length);
       for (var i = 0; i < float32.length; i++) {
-        int16[i] = Math.max(-32768, Math.min(32767, float32[i] * 32768));
+        var s = Math.max(-1, Math.min(1, float32[i]));
+        int16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
       }
       ws.send(int16.buffer);
     };
@@ -822,60 +801,130 @@ async function startMic() {
     source.connect(processor);
     processor.connect(audioCtx.destination);
 
-    isListening = true;
-    document.getElementById("micBtn").classList.add("on");
-    document.getElementById("micBtn").textContent = "⏹";
-    document.getElementById("mst").innerHTML = "<strong>Connecting to Deepgram…</strong>";
+    listening = true;
+    var btn = document.getElementById("micBtn");
+    btn.classList.add("on");
+    btn.textContent = "STOP";
+    document.getElementById("mst").innerHTML = "<strong style=\'color:#e8e6e0;\'>Connecting...</strong>";
     startVolAnim();
 
-    // Tell server to start listening
     if (ws && ws.readyState === 1) {
       ws.send(JSON.stringify({ type: "start_listening" }));
     }
-  } catch(e) {
+  }).catch(function(e){
     toast("Mic error: " + e.message);
-  }
+    console.error(e);
+  });
 }
 
 function stopMic() {
-  isListening = false;
-  if (processor) { processor.disconnect(); processor = null; }
-  if (audioCtx) { audioCtx.close(); audioCtx = null; }
+  listening = false;
+  if (processor) { try { processor.disconnect(); } catch(e){} processor = null; }
+  if (audioCtx) { try { audioCtx.close(); } catch(e){} audioCtx = null; }
   if (mediaStream) { mediaStream.getTracks().forEach(function(t){ t.stop(); }); mediaStream = null; }
   if (ws && ws.readyState === 1) ws.send(JSON.stringify({type:"stop_listening"}));
-  document.getElementById("micBtn").classList.remove("on");
-  document.getElementById("micBtn").textContent = "🎤";
-  document.getElementById("mst").innerHTML = "<strong>Stopped</strong> — click mic to resume";
+  var btn = document.getElementById("micBtn");
+  if (btn) { btn.classList.remove("on"); btn.textContent = "MIC"; }
+  var mst = document.getElementById("mst");
+  if (mst) mst.innerHTML = "<strong style=\'color:#e8e6e0;\'>Stopped</strong> - click mic to resume";
   stopVolAnim();
 }
 
-function startVolAnim() { var s=document.querySelectorAll("#mvw .vs"); volTimer=setInterval(function(){ s.forEach(function(v){ v.style.height=(3+Math.random()*16)+"px"; }); },100); }
-function stopVolAnim() { clearInterval(volTimer); document.querySelectorAll("#mvw .vs").forEach(function(v){ v.style.height="3px"; }); }
+function startVolAnim() {
+  var sticks = document.querySelectorAll("#mvw .vs");
+  volTimer = setInterval(function(){
+    sticks.forEach(function(v){ v.style.height = (3 + Math.random()*16) + "px"; });
+  }, 100);
+}
+function stopVolAnim() {
+  clearInterval(volTimer);
+  document.querySelectorAll("#mvw .vs").forEach(function(v){ v.style.height = "3px"; });
+}
 
-// ── AUDIENCE ──
+function pushSub(thai, eng) {
+  history.push({thai:thai, eng:eng});
+  if (history.length > 8) history.shift();
+
+  var sz = SZ[AUDSZ].L;
+  var t = getTS();
+  var TS = document.getElementById("thaiStack");
+  var ES = document.getElementById("engStack");
+  if (!TS || !ES) return;
+
+  var SLIDE = "transform 0.4s cubic-bezier(0.25,0.8,0.25,1)";
+
+  if (AUDLG !== "eng") {
+    var oldThai = Array.prototype.slice.call(TS.children);
+    oldThai.forEach(function(el){ el.style.transition = SLIDE; el.style.transform = "translateY(-110%)"; });
+    setTimeout(function(){ oldThai.forEach(function(el){ if (el.parentNode === TS) TS.removeChild(el); }); }, 420);
+
+    var elT = document.createElement("span");
+    elT.style.cssText = "font-family:\'Sarabun\',sans-serif;font-size:"+sz+"px;color:"+D.textColor+";line-height:1.35;text-shadow:"+t.ts+";text-align:center;width:100%;display:block;transform:translateY(110%);transition:"+SLIDE+";";
+    elT.textContent = thai;
+    TS.appendChild(elT);
+    curThaiEl = elT;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ elT.style.transform = "translateY(0)"; }); });
+  } else {
+    curThaiEl = null;
+  }
+
+  if (AUDLG !== "thai") {
+    var oldEng = Array.prototype.slice.call(ES.children);
+    oldEng.forEach(function(el){ el.style.transition = SLIDE; el.style.transform = "translateY(110%)"; });
+    setTimeout(function(){ oldEng.forEach(function(el){ if (el.parentNode === ES) ES.removeChild(el); }); }, 420);
+
+    var elE = document.createElement("span");
+    elE.style.cssText = "font-family:\'"+D.font+"\',sans-serif;font-size:"+sz+"px;color:"+D.textColor+";font-weight:600;line-height:1.25;text-shadow:"+t.ts+";-webkit-text-stroke:"+t.wts+";text-align:center;width:100%;display:block;transform:translateY(-110%);transition:"+SLIDE+";";
+    elE.textContent = (eng === "..." || eng === "...") ? "..." : eng;
+    ES.appendChild(elE);
+    curEngEl = elE;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ elE.style.transform = "translateY(0)"; }); });
+  } else {
+    curEngEl = null;
+  }
+}
+
 function joinAudience(code) {
-  AUDLG = "eng"; AUDSZ = "M";
+  AUDSZ = "M"; AUDLG = "eng";
+  RCODE = code;
   showPg("page-audience");
   connectAudienceWS(code);
 }
 
-var ctrlOn = false;
-function togCtrl() { ctrlOn=!ctrlOn; document.getElementById("actrl").classList.toggle("show",ctrlOn); document.getElementById("gearBtn").style.bottom=ctrlOn?"56px":"10px"; }
-function audSz(s,btn) { AUDSZ=s; btn.parentElement.querySelectorAll(".mb").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); }
-function audLg(l,btn) { AUDLG=l; btn.parentElement.querySelectorAll(".mb").forEach(function(b){b.classList.remove("on");}); btn.classList.add("on"); }
-
-// ── TOAST & UTIL ──
-function toast(msg, d) {
-  d = d || 2600;
-  var t = document.getElementById("toast");
-  t.textContent = msg; t.classList.add("show");
-  setTimeout(function(){ t.classList.remove("show"); }, d);
+function togCtrl() {
+  ctrlOn = !ctrlOn;
+  var bar = document.getElementById("actrl");
+  bar.style.opacity = ctrlOn ? "1" : "0";
+  bar.style.pointerEvents = ctrlOn ? "all" : "none";
+  document.getElementById("gearBtn").style.bottom = ctrlOn ? "56px" : "10px";
+}
+function audSz(s, btn) { AUDSZ = s; styleMiniBtn(btn, document.getElementById("audSzSeg")); }
+function audLg(l, btn) { AUDLG = l; styleMiniBtn(btn, document.getElementById("audLgSeg")); }
+function styleMiniBtn(btn, group) {
+  var all = group.querySelectorAll("button");
+  all.forEach(function(b){
+    b.style.background = "rgba(255,255,255,0.06)";
+    b.style.borderColor = "rgba(255,255,255,0.09)";
+    b.style.color = "rgba(255,255,255,0.4)";
+  });
+  btn.style.background = "rgba(232,230,224,0.13)";
+  btn.style.borderColor = "rgba(232,230,224,0.28)";
+  btn.style.color = "#e8e6e0";
 }
 
-// ── INIT ──
+function toast(msg, dur) {
+  dur = dur || 3000;
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.opacity = "1";
+  t.style.transform = "translateX(-50%) translateY(0)";
+  setTimeout(function(){
+    t.style.opacity = "0";
+    t.style.transform = "translateX(-50%) translateY(14px)";
+  }, dur);
+}
+
 render();
-var ip = new URLSearchParams(window.location.search);
-if (ip.get("room")) { document.getElementById("gateSub").textContent = "Enter password to join the live event"; }
 </script>
 </body>
 </html>
