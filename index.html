@@ -106,6 +106,7 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
 .mica{display:flex;align-items:center;gap:12px;flex:1;}
 .micbig{width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--panel3);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
 .micbig.on{background:var(--red);border-color:var(--red);animation:ring 1.5s ease infinite;}
+#micBtn.on{background:var(--red)!important;border-color:var(--red)!important;animation:ring 1.5s ease infinite;}
 @keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(217,95,95,0.5)}50%{box-shadow:0 0 0 12px rgba(217,95,95,0)}}
 .mst{font-size:12px;color:var(--muted);}.mst strong{color:var(--text);}
 .vw{display:flex;gap:2px;align-items:flex-end;height:18px;}
@@ -306,19 +307,25 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
           <button class="abtn abp" onclick="goWait()">→ Waiting Room</button>
           <span style="font-size:11px;color:var(--muted);">Design auto-saved</span>
         </div>
-        <div id="lact" style="display:none;width:100%;">
-          <div class="mica">
-            <button class="micbig" id="micBtn" onclick="toggleMic()">🎤</button>
+        <div id="lact" style="display:none;width:100%;align-items:center;">
+          <div style="display:flex;align-items:center;gap:12px;width:100%;">
+            <button id="micBtn" onclick="toggleMic()" style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.11);background:#262626;color:#e8e6e0;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">🎤</button>
             <div>
-              <div class="mst" id="mst"><strong>Ready</strong> — click mic to start</div>
+              <div id="mst" style="font-size:12px;color:rgba(232,230,224,0.4);"><strong style="color:#e8e6e0;">Ready</strong> — click mic to start</div>
               <div style="display:flex;align-items:center;gap:6px;margin-top:2px;">
-                <div class="vw" id="mvw"><div class="vs"></div><div class="vs"></div><div class="vs"></div><div class="vs"></div><div class="vs"></div></div>
-                <span style="font-size:10px;color:var(--muted);" id="rtag"></span>
+                <div id="mvw" style="display:flex;gap:2px;align-items:flex-end;height:18px;">
+                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
+                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
+                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
+                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
+                  <div class="vs" style="width:3px;border-radius:2px;background:#5db88a;min-height:3px;"></div>
+                </div>
+                <span id="rtag" style="font-size:10px;color:rgba(232,230,224,0.4);"></span>
               </div>
             </div>
-            <div style="margin-left:auto;display:flex;gap:8px;">
-              <button class="abtn abg" onclick="backDesign()">← Design</button>
-              <button class="abtn abd" onclick="endSess()">End Session</button>
+            <div style="margin-left:auto;display:flex;gap:8px;flex-shrink:0;">
+              <button onclick="backDesign()" style="padding:9px 20px;border-radius:6px;border:1px solid rgba(255,255,255,0.11);background:#1e1e1e;color:#e8e6e0;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">← Design</button>
+              <button onclick="endSess()" style="padding:9px 20px;border-radius:6px;border:1px solid rgba(217,95,95,0.22);background:rgba(217,95,95,0.1);color:#d95f5f;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;">End Session</button>
             </div>
           </div>
         </div>
