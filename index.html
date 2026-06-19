@@ -184,6 +184,7 @@ select{width:100%;background:var(--panel2);border:1px solid var(--border2);borde
     <span style="font-size:11px;color:var(--muted);">Host Studio</span>
     <div class="tright">
       <span class="chip cdim" id="modeChip">Design</span>
+      <select id="micSel" style="max-width:160px;font-size:11px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.11);border-radius:6px;color:#e8e6e0;padding:6px 8px;outline:none;cursor:pointer;"></select>
       <span style="font-size:11px;color:var(--muted);"><span class="conn-dot" id="connDot"></span><span id="connTxt">Connecting...</span></span>
     </div>
   </div>
@@ -448,6 +449,7 @@ function checkGate() {
     var rm = new URLSearchParams(window.location.search).get("room");
     if (rm) { joinAudience(rm); return; }
     showPg("page-host");
+    loadMics();
     connectHostWS();
   } else {
     document.getElementById("gateErr").textContent = "Incorrect password";
@@ -470,6 +472,25 @@ function showPg(id) {
   el.classList.add("active");
   el.style.display = "flex";
   el.style.flexDirection = "column";
+}
+
+// ── MIC DEVICE LIST ──
+async function loadMics() {
+  try {
+    await navigator.mediaDevices.getUserMedia({ audio: true });
+    var devices = await navigator.mediaDevices.enumerateDevices();
+    var sel = document.getElementById("micSel");
+    sel.innerHTML = "";
+    var audioInputs = devices.filter(function(d){ return d.kind === "audioinput"; });
+    audioInputs.forEach(function(d, i){
+      var o = document.createElement("option");
+      o.value = d.deviceId;
+      o.textContent = d.label || ("Mic " + (i + 1));
+      sel.appendChild(o);
+    });
+  } catch(e) {
+    console.error("Mic list error:", e);
+  }
 }
 
 // ── WEBSOCKET ──
@@ -778,7 +799,11 @@ function toggleMic() { isListening ? stopMic() : startMic(); }
 
 async function startMic() {
   try {
-    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: { sampleRate: 16000, channelCount: 1, echoCancellation: true, noiseSuppression: true } });
+    var sel = document.getElementById("micSel");
+    var deviceId = sel && sel.value ? sel.value : undefined;
+    var audioConstraints = { sampleRate: 16000, channelCount: 1, echoCancellation: true, noiseSuppression: true };
+    if (deviceId) audioConstraints.deviceId = { exact: deviceId };
+    mediaStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints });
     audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
     var source = audioCtx.createMediaStreamSource(mediaStream);
     processor = audioCtx.createScriptProcessor(4096, 1, 1);
