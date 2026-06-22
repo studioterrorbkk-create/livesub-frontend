@@ -798,19 +798,26 @@ function startMic() {
       ws.send(int16.buffer);
     };
 
-    source.connect(processor);
-    processor.connect(audioCtx.destination);
-
     listening = true;
     var btn = document.getElementById("micBtn");
     btn.classList.add("on");
     btn.textContent = "STOP";
-    document.getElementById("mst").innerHTML = "<strong style='color:#e8e6e0;'>Connecting...</strong>";
+    document.getElementById("mst").innerHTML = "<strong style=\'color:#e8e6e0;\'>Connecting...</strong>";
     startVolAnim();
 
+    // CRITICAL: Send start_listening BEFORE audio starts
+    // This tells backend to create Deepgram session first
     if (ws && ws.readyState === 1) {
       ws.send(JSON.stringify({ type: "start_listening" }));
     }
+
+    // Wait 1.5s for Deepgram to connect, THEN start sending audio
+    setTimeout(function() {
+      if (listening) {
+        source.connect(processor);
+        processor.connect(audioCtx.destination);
+      }
+    }, 1500);
   }).catch(function(e){
     toast("Mic error: " + e.message);
     console.error(e);
