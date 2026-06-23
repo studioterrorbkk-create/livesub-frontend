@@ -849,8 +849,8 @@ function stopVolAnim() {
 }
 
 function pushSub(thai, eng) {
-  history.push({thai:thai, eng:eng});
-  if (history.length > 8) history.shift();
+  subHistory.push({thai:thai, eng:eng});
+  if (subHistory.length > 8) subHistory.shift();
 
   var sz = SZ[AUDSZ].L;
   var t = getTS();
